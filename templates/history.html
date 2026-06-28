@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChurnIQ - Upload History</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Space Grotesk', system-ui;
+            background: #0a0e27;
+            background-image:
+                radial-gradient(at 20% 50%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 20%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+    .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 1.5rem;
+            z-index: 100;
+        }
+
+    .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            letter-spacing: -0.5px;
+        }
+
+    .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+    .logo-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+    .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+    .nav-item:hover,.nav-item.active {
+            background: rgba(99, 102, 241, 0.15);
+            color: #e2e8f0;
+        }
+
+    .nav-item.logout {
+            color: #ef4444;
+            margin-top: 2rem;
+        }
+
+    .nav-item.logout:hover {
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+    .main-content {
+            margin-left: 280px;
+            padding: 3rem 4rem;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 2rem;
+        }
+
+    .metric-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+    .metric-card:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-4px);
+        }
+
+        table {
+            width: 100%;
+            color: #e2e8f0;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        tr:hover {
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+       .empty-state {
+            color: #94a3b8;
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">🧠</div>
+            <div class="logo-text">ChurnIQ</div>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="nav-item">📊 Dashboard</a>
+        <a href="{{ url_for('upload') }}" class="nav-item">⬆️ Upload Data</a>
+        <a href="{{ url_for('history') }}" class="nav-item active">📜 Upload History</a>
+        <a href="{{ url_for('profile') }}" class="nav-item">👤 Profile</a>
+        <a href="{{ url_for('download_report') }}" class="nav-item">📥 Download Report</a>
+        <a href="{{ url_for('predict_single') }}" class="nav-item">🎯 Single Predict</a>
+        <a href="{{ url_for('download_excel') }}" class="nav-item">📊 Excel Export</a>
+        <a href="{{ url_for('logout') }}" class="nav-item logout">🚪 Logout</a>
+    </div>
+
+    <div class="main-content">
+        <h1>Upload History</h1>
+        <div class="metric-card">
+            {% if uploads %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Upload Date</th>
+                        <th style="text-align: right;">Total Rows</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for upload in uploads %}
+                    <tr>
+                        <td style="color: #e2e8f0; font-weight: 500;">{{ upload[0] }}</td>
+                        <td style="color: #94a3b8;">{{ upload[1] }}</td>
+                        <td style="text-align: right; color: #6366f1; font-weight: 600;">{{ upload[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <p style="font-size: 3rem; margin-bottom: 1rem;">📂</p>
+                <p>No uploads yet. Upload your first CSV file!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile - ChurnIQ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Space Grotesk', system-ui; background: #0a0e27;
+            background-image: radial-gradient(at 20% 50%, rgba(99, 102, 241, 0.15) 0px, transparent 50%);
+            min-height: 100vh; color: #e2e8f0;
+        }
+       .sidebar {
+            position: fixed; left: 0; top: 0; width: 280px; height: 100vh;
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem 1.5rem;
+        }
+       .logo {
+            font-size: 1.75rem; font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 3rem;
+        }
+       .nav-item {
+            display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem;
+            margin-bottom: 0.5rem; border-radius: 12px; color: #94a3b8; text-decoration: none;
+        }
+       .nav-item.active { background: rgba(99, 102, 241, 0.15); color: #e2e8f0; }
+       .main-content { margin-left: 280px; padding: 3rem 4rem; }
+       .header { display: flex; justify-content: space-between; margin-bottom: 3rem; }
+       .user-info { color: #94a3b8; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem; }
+       .profile-card {
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px;
+            padding: 3rem; max-width: 600px;
+        }
+       .profile-field { margin-bottom: 2rem; }
+       .profile-field label { display: block; color: #94a3b8; margin-bottom: 0.5rem; font-size: 0.9rem; }
+       .profile-field p { font-size: 1.25rem; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">ChurnIQ</div>
+        <a href="{{ url_for('dashboard') }}" class="nav-item">📊 Dashboard</a>
+        <a href="{{ url_for('upload') }}" class="nav-item">⬆️ Upload Data</a>
+        <a href="{{ url_for('profile') }}" class="nav-item active">👤 Profile</a>
+        <a href="{{ url_for('download_report') }}" class="nav-item">📥 Download Report</a>
+        <a href="{{ url_for('logout') }}" class="nav-item">🚪 Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Profile</h1>
+            <div class="user-info">Welcome, {{ username }}</div>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-field">
+                <label>Username</label>
+                <p>{{ username }}</p>
+            </div>
+            <div class="profile-field">
+                <label>Role</label>
+                <p>Admin</p>
+            </div>
+            <div class="profile-field">
+                <label>Member Since</label>
+                <p>2024</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

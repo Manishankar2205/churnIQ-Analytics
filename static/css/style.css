@@ -1,0 +1,72 @@
+body {
+    background: #1e1e2e !important;
+    color: white !important;
+    font-family: Arial, sans-serif !important;
+}
+
+.login-body {
+    background: linear-gradient(135deg, #1e1e2e 0%, #2d1b69 100%) !important;
+    min-height: 100vh;
+}
+
+.login-container { 
+    display: flex; 
+    min-height: 100vh; 
+}
+
+.login-left, .login-right { 
+    flex: 1; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 40px;
+}
+
+.glass-card {
+    background: rgba(30, 30, 46, 0.8) !important;
+    border: 3px solid #667eea !important;
+    border-radius: 20px !important;
+    padding: 50px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+.login-card { width: 100%; max-width: 400px; }
+.login-card h2 { color: white; font-size: 32px; }
+.subtitle { color: rgba(255,255,255,0.7); margin-bottom: 30px; }
+
+.input-group { position: relative; margin-bottom: 20px; }
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    color: rgba(255,255,255,0.5);
+}
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.brand-section { text-align: center; color: white; }
+.brand-section i { font-size: 80px; margin-bottom: 20px; color: #667eea; }
+.brand-section h1 { font-size: 48px; margin-bottom: 10px; }
+.stats-preview { display: flex; gap: 40px; margin-top: 40px; justify-content: center; }
+.stat-item { text-align: center; }
+.stat-num { display: block; font-size: 32px; font-weight: bold; color: #4ECDC4; }
+.stat-label { font-size: 14px; opacity: 0.8; }

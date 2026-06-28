@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChurnIQ - Single Predict</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Space Grotesk', system-ui;
+            background: #0a0e27;
+            background-image:
+                radial-gradient(at 20% 50%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 20%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+    .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 1.5rem;
+            z-index: 100;
+        }
+    .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            letter-spacing: -0.5px;
+        }
+    .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+    .logo-text {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+    .nav-item:hover,.nav-item.active {
+            background: rgba(99, 102, 241, 0.15);
+            color: #e2e8f0;
+        }
+    .nav-item.logout {
+            color: #ef4444;
+            margin-top: 2rem;
+        }
+    .main-content {
+            margin-left: 280px;
+            padding: 3rem 4rem;
+            min-height: 100vh;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 2rem;
+        }
+    .metric-card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-family: 'Space Grotesk';
+            margin-bottom: 1.5rem;
+        }
+        label {
+            color: #94a3b8;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        button {
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">🧠</div>
+            <div class="logo-text">ChurnIQ</div>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="nav-item">📊 Dashboard</a>
+        <a href="{{ url_for('upload') }}" class="nav-item">⬆️ Upload Data</a>
+        <a href="{{ url_for('history') }}" class="nav-item">📜 Upload History</a>
+        <a href="{{ url_for('profile') }}" class="nav-item">👤 Profile</a>
+        <a href="{{ url_for('download_report') }}" class="nav-item">📥 Download Report</a>
+        <a href="{{ url_for('predict_single') }}" class="nav-item active">🎯 Single Predict</a>
+        <a href="{{ url_for('download_excel') }}" class="nav-item">📊 Excel Export</a>
+        <a href="{{ url_for('logout') }}" class="nav-item logout">🚪 Logout</a>
+    </div>
+
+    <div class="main-content">
+        <h1>Single Customer Prediction</h1>
+        <div class="metric-card">
+            <form method="POST">
+                <label>Tenure (months)</label>
+                <input type="number" name="tenure" required>
+                
+                <label>Monthly Charges ($)</label>
+                <input type="number" step="0.01" name="monthly" required>
+                
+                <label>Contract Type</label>
+                <select name="contract" required>
+                    <option value="Month-to-month">Month-to-month</option>
+                    <option value="One year">One year</option>
+                    <option value="Two year">Two year</option>
+                </select>
+                
+                <button type="submit">Predict Churn</button>
+            </form>
+
+            {% if prediction is not none %}
+            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.4); border-radius: 12px;">
+                <h3 style="margin-bottom: 1rem;">Result:</h3>
+                <p style="font-size: 1.5rem; font-weight: 700; color: {% if prediction == 1 %}#ef4444{% else %}#22c55e{% endif %};">
+                    {% if prediction == 1 %}High Risk{% else %}Low Risk{% endif %} - {{ probability }}%
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

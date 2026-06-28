@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Detail</title>
+    <!-- dashboard.html lo unna complete <style> tag copy chey -->
+</head>
+<body>
+    <!-- dashboard.html lo unna sidebar copy chey -->
+    <div class="main-content">
+        <h1>Customer: {{ customer.customerID }}</h1>
+        <div class="metrics-grid" style="margin-top: 2rem;">
+            <div class="metric-card">
+                <div class="metric-label">Churn Risk</div>
+                <div class="metric-value" style="color: {% if probability > 50 %}#ef4444{% else %}#22c55e{% endif %};">{{ probability }}%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Tenure</div>
+                <div class="metric-value">{{ customer.tenure }} <span style="font-size: 1rem; color: #94a3b8;">months</span></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Monthly Charges</div>
+                <div class="metric-value">${{ customer.MonthlyCharges }}</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Contract</div>
+                <div class="metric-value" style="font-size: 1.5rem;">{{ customer.Contract }}</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload - ChurnIQ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Space Grotesk', system-ui; background: #0a0e27;
+            background-image: radial-gradient(at 20% 50%, rgba(99, 102, 241, 0.15) 0px, transparent 50%);
+            min-height: 100vh; color: #e2e8f0;
+        }
+       .sidebar {
+            position: fixed; left: 0; top: 0; width: 280px; height: 100vh;
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem 1.5rem;
+        }
+       .logo {
+            font-size: 1.75rem; font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 3rem;
+        }
+       .nav-item {
+            display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem;
+            margin-bottom: 0.5rem; border-radius: 12px; color: #94a3b8; text-decoration: none;
+        }
+       .nav-item.active { background: rgba(99, 102, 241, 0.15); color: #e2e8f0; }
+       .main-content { margin-left: 280px; padding: 3rem 4rem; }
+       .header { display: flex; justify-content: space-between; margin-bottom: 3rem; }
+       .user-info { color: #94a3b8; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem; }
+       .upload-card {
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px;
+            padding: 4rem; text-align: center; max-width: 700px; margin: 0 auto;
+        }
+       .upload-icon {
+            width: 100px; height: 100px; margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 24px; display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+       .btn {
+            padding: 1rem 2.5rem; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer;
+        }
+       .alert { padding: 1rem; margin-bottom: 1.5rem; border-radius: 12px; }
+       .alert-error { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; }
+       .alert-success { background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); color: #86efac; }
+        input[type="file"] { display: none; }
+       .file-label {
+            display: inline-block; padding: 1rem 2.5rem; background: rgba(99, 102, 241, 0.15);
+            border: 2px dashed rgba(99, 102, 241, 0.5); border-radius: 12px;
+            color: #e2e8f0; font-weight: 600; cursor: pointer; margin-bottom: 1.5rem;
+        }
+        #file-name { margin-top: 1rem; color: #6366f1; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">ChurnIQ</div>
+        <a href="{{ url_for('dashboard') }}" class="nav-item">📊 Dashboard</a>
+        <a href="{{ url_for('upload') }}" class="nav-item active">⬆️ Upload Data</a>
+        <a href="{{ url_for('profile') }}" class="nav-item">👤 Profile</a>
+        <a href="{{ url_for('download_report') }}" class="nav-item">📥 Download Report</a>
+        <a href="{{ url_for('logout') }}" class="nav-item">🚪 Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Upload Customer Data</h1>
+            <div class="user-info">Welcome, {{ username }}</div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="upload-card">
+            <div class="upload-icon">⬆️</div>
+            <h3>Drop CSV file here or click to browse</h3>
+            <p style="color: #94a3b8; margin: 1rem 0 2rem;">Supported format:.csv</p>
+
+            <form method="POST" enctype="multipart/form-data">
+                <label for="file-input" class="file-label">Choose File</label>
+                <input type="file" id="file-input" name="file" accept=".csv" required onchange="updateFileName()">
+                <div id="file-name"></div>
+                <br><br>
+                <button type="submit" class="btn">⬆️ Upload & Analyze</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function updateFileName() {
+            const input = document.getElementById('file-input');
+            const fileName = document.getElementById('file-name');
+            if (input.files.length > 0) {
+                fileName.textContent = 'Selected: ' + input.files[0].name;
+            }
+        }
+    </script>
+</body>
+</html>
